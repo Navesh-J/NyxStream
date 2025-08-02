@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { IKUpload } from "imagekitio-next";
 import { useNotification } from "./Notification";
+import { UploadError, IKUploadResponse } from "imagekitio-next/dist/types/components/IKUpload/props";
 
 function VideoUploadForm() {
   const [title, setTitle] = useState("");
@@ -14,13 +15,13 @@ function VideoUploadForm() {
   const router = useRouter();
   const { showNotification } = useNotification();
 
-  const handleUploadSuccess = (res: any) => {
-    setVideoUrl(res.filePath); // ImageKit path
-    setThumbnailUrl(res.filePath); // If you have thumbnail extraction, update accordingly
+  const handleUploadSuccess = (res:IKUploadResponse ) => {
+    setVideoUrl(res.url); // ImageKit path
+    setThumbnailUrl(res.url); // If you have thumbnail extraction, update accordingly
     showNotification("Upload successful!", "success");
   };
 
-  const handleUploadError = (err: any) => {
+  const handleUploadError = (err: UploadError) => {
     showNotification("Upload failed!", "error");
     console.error(err);
   };

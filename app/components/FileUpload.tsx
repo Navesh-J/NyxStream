@@ -8,9 +8,10 @@ import {
   upload,
 } from "@imagekit/next";
 import { useRef, useState } from "react";
+import type { UploadResponse } from "@imagekit/next";
 
 interface FileUploadProps {
-  onSuccess: (res: any) => void;
+  onSuccess: (res: UploadResponse) => void;
   onProgress?: (progress: number) => void;
   fileType?: "image" | "video";
 }

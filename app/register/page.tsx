@@ -37,8 +37,12 @@ function RegisterPage() {
         throw new Error(data.error || "Registration failed");
       }
       router.push("/login");
-    } catch (error: any) {
-      setError(error.message || "Registration failed");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message || "Registration failed");
+      } else {
+        setError("Registration failed");
+      }
     }
     setLoading(false);
   };
@@ -66,7 +70,7 @@ function RegisterPage() {
             type="button"
           >
             <img src="/google-icon.svg" alt="" className="w-5 h-5" />
-              Google
+            Google
           </button>
           <button
             onClick={() => signIn("github", { callbackUrl: "/" })}
@@ -74,14 +78,19 @@ function RegisterPage() {
             type="button"
           >
             <img src="/github-icon.svg" alt="" className="w-5 h-5 invert" />
-              GitHub
+            GitHub
           </button>
         </div>
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
           {error && (
-            <div aria-live="polite" className="text-pink-400 text-center text-sm -mt-2">{error}</div>
+            <div
+              aria-live="polite"
+              className="text-pink-400 text-center text-sm -mt-2"
+            >
+              {error}
+            </div>
           )}
-          
+
           <input
             type="email"
             required
