@@ -10,7 +10,7 @@ export default function Header() {
   const { showNotification } = useNotification();
 
   const handleSignOut = async () => {
-     try {
+    try {
       await signOut();
       showNotification("Signed out successfully", "success");
     } catch {
@@ -19,83 +19,73 @@ export default function Header() {
   };
 
   return (
-    <div className="navbar bg-base-300 sticky top-0 z-40">
-      <div className="container mx-auto">
-        <div className="flex-1 px-2 lg:flex-none">
-          <Link
-            href="/"
-            className="btn btn-ghost text-xl gap-2 normal-case font-bold"
-            prefetch={true}
-            onClick={() =>
-              showNotification("Welcome to ImageKit ReelsPro", "info")
-            }
-          >
-            <Home className="w-5 h-5" />
-            Video with AI
-          </Link>
-        </div>
-        <div className="flex flex-1 justify-end px-2">
-          <div className="flex items-stretch gap-2">
-            <div className="dropdown dropdown-end">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn btn-ghost btn-circle"
-              >
-                <User className="w-5 h-5" />
-              </div>
-              <ul
-                tabIndex={0}
-                className="dropdown-content z-[1] shadow-lg bg-base-100 rounded-box w-64 mt-4 py-2"
-              >
-                {session ? (
-                  <>
-                    <li className="px-4 py-1">
-                      <span className="text-sm opacity-70">
-                        {session.user?.email?.split("@")[0]}
-                      </span>
-                    </li>
-                    <div className="divider my-1"></div>
+    <header className="sticky top-0 z-50 w-full bg-gradient-to-br from-[#18192e]/80 via-[#232541]/80 to-[#181925]/80 shadow-2xl backdrop-blur-md border-b border-gray-800 mt-2 mb-6 rounded-2xl">
+      <nav className="container mx-auto px-6 py-2 flex items-center justify-between">
+        {/* Left: Logo/Title */}
+        <Link
+          href="/"
+          prefetch={true}
+          onClick={() => showNotification("Welcome to NyxStream", "info")}
+          className="flex items-center gap-2 font-extrabold text-2xl md:text-3xl select-none tracking-tight bg-gradient-to-r from-pink-500 via-indigo-400 to-purple-600 bg-clip-text text-transparent transition hover:scale-105 hover:brightness-110 duration-200 cursor-pointer"
+        >
+          <Home className="w-6 h-6 text-indigo-400 drop-shadow" />
+          Nyx<span className="text-indigo-300 drop-shadow">Stream</span>
+        </Link>
 
-                    <li>
-                      <Link
-                        href="/upload"
-                        className="px-4 py-2 hover:bg-base-200 block w-full"
-                        onClick={() =>
-                          showNotification("Welcome to Admin Dashboard", "info")
-                        }
-                      >
-                        Video Upload
-                      </Link>
-                    </li>
-
-                    <li>
-                      <button
-                        onClick={handleSignOut}
-                        className="px-4 py-2 text-error hover:bg-base-200 w-full text-left"
-                      >
-                        Sign Out
-                      </button>
-                    </li>
-                  </>
-                ) : (
+        {/* Right: User/Dropdown */}
+        <div className="relative flex items-center">
+          <div className="group relative">
+            <button
+              tabIndex={0}
+              className="flex items-center justify-center w-11 h-11 rounded-full transition bg-gradient-to-br from-[#1a1b2e] via-[#202342] to-[#181925] hover:from-indigo-700 hover:to-pink-700 shadow-md border border-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-500"
+            >
+              <User className="w-6 h-6 text-indigo-300 cursor-pointer" />
+            </button>
+            {/* Dropdown */}
+            <ul
+              tabIndex={0}
+              className="absolute right-0 mt-3 w-60 rounded-2xl shadow-2xl bg-[#191a2d]/90 border border-gray-700 opacity-0 translate-y-2 pointer-events-none group-focus-within:opacity-100 group-focus-within:pointer-events-auto group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 z-20 overflow-hidden"
+            >
+              {session ? (
+                <>
+                  <li className="px-5 py-3 text-gray-400 text-sm border-b border-gray-700">
+                    <span>
+                      {session.user?.email?.split("@")[0]}
+                    </span>
+                  </li>
                   <li>
                     <Link
-                      href="/login"
-                      className="px-4 py-2 hover:bg-base-200 block w-full"
-                      onClick={() =>
-                        showNotification("Please sign in to continue", "info")
-                      }
+                      href="/upload"
+                      className="block px-5 py-3 text-sm text-white hover:bg-gradient-to-r hover:from-indigo-800 hover:to-pink-800 transition-colors cursor-pointer"
+                      onClick={() => showNotification("Welcome to Admin Dashboard", "info")}
                     >
-                      Login
+                      Video Upload
                     </Link>
                   </li>
-                )}
-              </ul>
-            </div>
+                  <li>
+                    <button
+                      onClick={handleSignOut}
+                      className="block text-left px-5 py-3 text-sm text-pink-400 font-semibold hover:bg-gradient-to-r hover:from-pink-900/70 hover:to-indigo-700/60 transition-colors cursor-pointer w-full"
+                    >
+                      Sign Out
+                    </button>
+                  </li>
+                </>
+              ) : (
+                <li>
+                  <Link
+                    href="/login"
+                    className="block px-5 py-3 text-sm text-white hover:bg-gradient-to-r hover:from-indigo-800 hover:to-pink-800 transition-colors cursor-pointer"
+                    onClick={() => showNotification("Please sign in to continue", "info")}
+                  >
+                    Login
+                  </Link>
+                </li>
+              )}
+            </ul>
           </div>
         </div>
-      </div>
-    </div>
+      </nav>
+    </header>
   );
 }
