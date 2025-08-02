@@ -3,6 +3,7 @@
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import VideoFeed from "./components/VideoFeed";
+import Header from "./components/Header";
 import { IVideo } from "@/models/Video";
 import { useEffect, useState } from "react";
 
@@ -42,34 +43,17 @@ export default function HomePage() {
   };
 
   return (
-    <main className="p-2 max-w-7xl mx-auto">
-      <div className="flex justify-between items-center mb-2">
-        <h1 className="mb-8 flex items-center select-none text-4xl font-extrabold text-pink-500 tracking-wide drop-shadow">
-          Nyx<span className="text-indigo-400">Stream</span>
-        </h1>
-
-        <div className="flex gap-4">
-          <button
-            onClick={handleUpload}
-            type="button"
-            className="cursor-pointer rounded-2xl border-2 border-emerald-600 bg-gradient-to-tr from-emerald-700 via-emerald-900 to-emerald-800 px-6 py-2 text-white font-semibold shadow-md transition-transform duration-300 ease-in-out hover:scale-110 hover:brightness-125 hover:shadow-emerald-500 focus:outline-none focus:ring-4 focus:ring-emerald-400"
-          >
-            Upload
-          </button>
-
-          {session?.user && (
-            <button
-              onClick={handleLogout}
-              type="button"
-              className="cursor-pointer rounded-2xl border-2 border-rose-600 bg-gradient-to-tr from-rose-700 via-rose-900 to-rose-800 px-6 py-2 text-white font-semibold shadow-md transition-transform duration-300 ease-in-out hover:scale-110 hover:brightness-125 hover:shadow-rose-500 focus:outline-none focus:ring-4 focus:ring-rose-400"
-            >
-              Logout
-            </button>
-          )}
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-[#16172a] via-[#232541] to-[#170925] relative overflow-hidden">
+      {/* Cinematic Blobs */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute top-[10%] left-0 w-96 h-96 bg-indigo-600/15 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-0 right-0 w-80 h-80 bg-pink-700/15 rounded-full blur-2xl animate-pulse" />
       </div>
 
-      <VideoFeed videos={videos} />
-    </main>
+      <main className="relative p-2 max-w-7xl mx-auto z-10">
+        <Header />
+        <VideoFeed videos={videos} />
+      </main>
+    </div>
   );
 }
