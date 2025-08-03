@@ -1,5 +1,6 @@
 "use client";
 
+export const runtime = 'nodejs' 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { IKUpload } from "imagekitio-next";

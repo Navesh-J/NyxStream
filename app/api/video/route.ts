@@ -1,3 +1,4 @@
+export const runtime = 'nodejs' 
 import { authOptions } from "@/lib/authOptions";
 import { connectToDatabase } from "@/lib/db";
 import Video, { IVideo } from "@/models/Video";
