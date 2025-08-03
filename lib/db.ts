@@ -20,6 +20,7 @@ export async function connectToDatabase() {
     const opts = {
       bufferCommands: true,
       maxPoolSize: 10,
+      appName: 'Cluster0',
     };
     cached.promise = mongoose.connect(MONGODB_URI, opts).then(() => mongoose.connection);
   }
