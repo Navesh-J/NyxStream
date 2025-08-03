@@ -6,28 +6,21 @@ import Video, { IVideo } from "@/models/Video";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-// export async function GET() {
-//     try {
-//         console.log('🛠  [video] connecting to DB…')
-//         await connectToDatabase()
-//         console.log('🛠  [video] DB connected, querying…')
-//         const videos = await Video.find({}).sort({ createdAt: -1 }).lean();
-//         console.log(`🛠  [video] found ${videos.length} videos`)
-//         if (!videos || videos.length === 0) {
-//             return NextResponse.json([], { status: 200 })
-//         }
-//         return NextResponse.json(videos)
-//     } catch (error) {
-//         console.error('🔥 [video] GET error:', error)
-//         return NextResponse.json(
-//             { error: "Failed to fetch videos" },
-//             { status: 500 }
-//         )
-//     }
-// }
-
 export async function GET() {
-  return NextResponse.json([], { status: 200 })
+  try {
+    console.log('🛠  [video] connecting to DB…')
+    await connectToDatabase()
+    console.log('🛠  [video] connected, querying…')
+    const videos = await Video.find({}).sort({ createdAt: -1 }).lean()
+    console.log(`🛠  [video] fetched ${videos.length} videos`)
+    return NextResponse.json(videos)
+  } catch (error) {
+    console.error('🔥 [video] GET error:', error)
+    return NextResponse.json(
+      { error: 'Failed to fetch videos' },
+      { status: 500 }
+    )
+  }
 }
 
 export async function POST(request: NextRequest) {
