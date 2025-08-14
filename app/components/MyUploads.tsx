@@ -86,7 +86,7 @@ export default function MyUploadsPage() {
       {loading ? (
         <p>Loading your uploads...</p>
       ) : videos.length === 0 ? (
-        <p className="text-muted">You haven't uploaded any videos yet.</p>
+        <p className="text-muted">You haven&#39;t uploaded any videos yet.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {videos.map((v) => (
