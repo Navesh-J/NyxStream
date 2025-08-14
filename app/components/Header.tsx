@@ -55,6 +55,15 @@ export default function Header() {
                   </li>
                   <li>
                     <Link
+                      href="/library"
+                      className="block px-5 py-3 text-sm text-white hover:bg-gradient-to-r hover:from-indigo-800 hover:to-pink-800 transition-colors cursor-pointer"
+                      onClick={() => showNotification("Welcome to Your Library", "info")}
+                    >
+                      My Uploads
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
                       href="/upload"
                       className="block px-5 py-3 text-sm text-white hover:bg-gradient-to-r hover:from-indigo-800 hover:to-pink-800 transition-colors cursor-pointer"
                       onClick={() => showNotification("Welcome to Admin Dashboard", "info")}
