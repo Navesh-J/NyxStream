@@ -12,6 +12,7 @@
     "@imagekit/next": "^2.1.2",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^3.0.2",
+    "imagekit": "^6.0.0",
     "imagekitio-next": "^1.0.1",
     "imagekitio-react": "^4.3.0",
     "lucide-react": "^0.535.0",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/imagekit": "^3.1.5",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
