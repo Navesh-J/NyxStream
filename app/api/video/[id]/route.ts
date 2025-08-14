@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/db";
 import Video from "@/models/Video";
 import { getServerSession } from "next-auth";
@@ -11,18 +11,23 @@ const imagekit = new ImageKit({
   urlEndpoint: process.env.NEXT_PUBLIC_URL_ENDPOINT!,
 });
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(req: NextRequest) {
   try {
+    // Extract the [id] from the URL
+    const url = new URL(req.url);
+    const parts = url.pathname.split("/");
+    const id = parts[parts.length - 1];
+
+    if (!id) {
+      return NextResponse.json({ error: "Missing video ID" }, { status: 400 });
+    }
+
     const session = await getServerSession(authOptions);
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const userId = session.user.id;
-    const id = params.id;
 
     await connectToDatabase();
 
@@ -48,7 +53,10 @@ export async function DELETE(
       try {
         await imagekit.deleteFile(video.thumbnailFileId);
       } catch (err) {
-        console.warn(`⚠ Failed to delete thumbnail ${video.thumbnailFileId}`, err);
+        console.warn(
+          `⚠ Failed to delete thumbnail ${video.thumbnailFileId}`,
+          err
+        );
       }
     }
 
