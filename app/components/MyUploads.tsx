@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { IVideo } from "@/models/Video";
 import VideoComponent from "./VideoComponent";
 import { useNotification } from "./Notification";
+import Header from "./Header";
 
 export default function MyUploadsPage() {
   const { data: session, status } = useSession();
@@ -71,6 +72,8 @@ export default function MyUploadsPage() {
   }
 
   return (
+    <div className="relative p-2 max-w-7xl mx-auto z-10">
+    <Header />
     <main className="p-4 max-w-5xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">My Uploads</h1>
@@ -112,5 +115,6 @@ export default function MyUploadsPage() {
         </div>
       )}
     </main>
+    </div>
   );
 }
