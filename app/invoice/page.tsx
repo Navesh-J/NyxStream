@@ -2,9 +2,12 @@
 
 import React, { useState } from "react";
 import { jsPDF } from "jspdf";
+// import type { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import { v4 as uuidv4 } from "uuid";
 import { useNotification } from "../components/Notification";
+import { Session } from "next-auth";
+import { IVideo } from "@/models/Video";
 
 // Helper Functions
 function formatBytes(bytes?: number | null): string {
@@ -57,7 +60,7 @@ export default function InvoiceButton() {
   }
 
   // Build and return PDF document
-  function createInvoicePDF(session: any, videos: any[]) {
+  function createInvoicePDF(session: Session, videos: IVideo[]) {
     const doc = new jsPDF({ unit: "pt", format: "a4" });
     const pageWidth = doc.internal.pageSize.getWidth();
     const invoiceId = uuidv4();
@@ -65,13 +68,15 @@ export default function InvoiceButton() {
 
     // Header
     doc.setFontSize(18).text("Video Upload Invoice", 40, 50);
-    doc.setFontSize(10)
+    doc
+      .setFontSize(10)
       .text(`Invoice #: ${invoiceId}`, 40, 70)
       .text(`Date of Issue: ${issueDate}`, 40, 86);
 
     // Sender & Receiver Info
     doc.setFontSize(11).text("From:", 40, 110);
-    doc.setFontSize(10)
+    doc
+      .setFontSize(10)
       .text("NyxStream", 40, 126)
       .text("support@nyxstream.example", 40, 142);
 
@@ -79,29 +84,37 @@ export default function InvoiceButton() {
     const userName = session?.user?.name ?? "N/A";
     const userEmail = session?.user?.email ?? "N/A";
     doc.setFontSize(11).text("To:", receiverX, 110);
-    doc.setFontSize(10).text(userName, receiverX, 126).text(userEmail, receiverX, 142);
+    doc
+      .setFontSize(10)
+      .text(userName, receiverX, 126)
+      .text(userEmail, receiverX, 142);
 
     // Table
-    const head = [[
-      "Video ID", "Title", "Upload Date", "Duration",
-      "Size", "Resolution", "Views"
-    ]];
+    const head = [
+      [
+        "Video ID",
+        "Title",
+        "Upload Date",
+        "Duration",
+        "Size",
+        "Resolution",
+        "Views",
+      ],
+    ];
 
-    const body = videos.map((v: any) => [
-      String(v._id ?? v.id ?? "N/A").slice(0, 12),
+    const body = videos.map((v: IVideo) => [
+      String(v._id ?? "N/A").slice(0, 12),
       v.title ?? "Untitled",
-      formatDate(v.createdAt ?? v.uploadedAt ?? null),
-      formatDuration(v.duration ?? v.videoDuration ?? null),
-      formatBytes(v.size ?? v.fileSize ?? v.file_size ?? null),
-      v.resolution ??
-        v.quality ??
+      formatDate(v.createdAt ?? null),
+      formatDuration(v.duration ?? null),
+      formatBytes(v.size ?? null),
         (v.transformation
           ? `${v.transformation.width}x${v.transformation.height}`
           : "N/A"),
-      String(v.views ?? v.viewCount ?? "N/A"),
+      String(v.viewCount ?? "N/A"),
     ]);
 
-    autoTable(doc as any, {
+    autoTable(doc as jsPDF, {
       startY: 170,
       head,
       body,
@@ -120,19 +133,24 @@ export default function InvoiceButton() {
     });
 
     // Summary
-    const finalY =
-      (doc as any).lastAutoTable?.finalY ??
+    // @ts-expect-error: lastAutoTable is added by jsPDF-AutoTable plugin
+    const finalY = doc.lastAutoTable?.finalY ??
       doc.internal.pageSize.getHeight() - 100;
     const totalVideos = videos.length;
-    const totalStorageBytes = videos.reduce((acc: number, v: any) => {
-      const size = Number(v.size ?? v.fileSize ?? v.file_size ?? 0);
+    const totalStorageBytes = videos.reduce((acc: number, v: IVideo) => {
+      const size = Number(v.size ?? 0);
       return acc + (isNaN(size) ? 0 : size);
     }, 0);
 
     doc.setFontSize(11).text("Summary", 40, finalY + 30);
-    doc.setFontSize(10)
+    doc
+      .setFontSize(10)
       .text(`Total number of videos: ${totalVideos}`, 40, finalY + 46)
-      .text(`Total storage used: ${formatBytes(totalStorageBytes)}`, 40, finalY + 62);
+      .text(
+        `Total storage used: ${formatBytes(totalStorageBytes)}`,
+        40,
+        finalY + 62
+      );
 
     // Footer
     const footerY = doc.internal.pageSize.getHeight() - 40;
@@ -163,9 +181,11 @@ export default function InvoiceButton() {
       }
 
       showNotification("Invoice generated", "success");
-    } catch (err: any) {
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to generate invoice";
       console.error("Invoice generation failed", err);
-      showNotification(err.message || "Failed to generate invoice", "error");
+      showNotification(errorMessage, "error");
     } finally {
       setLoading(false);
     }
