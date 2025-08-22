@@ -49,15 +49,15 @@ export default function Header() {
               {session ? (
                 <>
                   <li className="px-5 py-3 text-gray-400 text-sm border-b border-gray-700">
-                    <span>
-                      {session.user?.email?.split("@")[0]}
-                    </span>
+                    <span>{session.user?.email?.split("@")[0]}</span>
                   </li>
                   <li>
                     <Link
                       href="/library"
                       className="block px-5 py-3 text-sm text-white hover:bg-gradient-to-r hover:from-indigo-800 hover:to-pink-800 transition-colors cursor-pointer"
-                      onClick={() => showNotification("Welcome to Your Library", "info")}
+                      onClick={() =>
+                        showNotification("Welcome to Your Library", "info")
+                      }
                     >
                       My Uploads
                     </Link>
@@ -66,9 +66,22 @@ export default function Header() {
                     <Link
                       href="/upload"
                       className="block px-5 py-3 text-sm text-white hover:bg-gradient-to-r hover:from-indigo-800 hover:to-pink-800 transition-colors cursor-pointer"
-                      onClick={() => showNotification("Welcome to Admin Dashboard", "info")}
+                      onClick={() =>
+                        showNotification("Welcome to Admin Dashboard", "info")
+                      }
                     >
                       Video Upload
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/invoice"
+                      className="block px-5 py-3 text-sm text-white hover:bg-gradient-to-r hover:from-indigo-800 hover:to-pink-800 transition-colors cursor-pointer"
+                      onClick={() =>
+                        showNotification("Generating Invoice...", "info")
+                      }
+                    >
+                      Generate Invoice
                     </Link>
                   </li>
                   <li>
@@ -85,7 +98,9 @@ export default function Header() {
                   <Link
                     href="/login"
                     className="block px-5 py-3 text-sm text-white hover:bg-gradient-to-r hover:from-indigo-800 hover:to-pink-800 transition-colors cursor-pointer"
-                    onClick={() => showNotification("Please sign in to continue", "info")}
+                    onClick={() =>
+                      showNotification("Please sign in to continue", "info")
+                    }
                   >
                     Login
                   </Link>
