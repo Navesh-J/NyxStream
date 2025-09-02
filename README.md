@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NyxStream
 
-## Getting Started
+NyxStream is a modern video-sharing web application built with **Next.js**.  
+It enables users to upload, stream, and manage videos with authentication and invoicing features.  
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Video Uploads**  
+  - Authenticated users can upload videos through ImageKit.  
+  - Metadata such as title, description, resolution, and file size is stored in MongoDB.  
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Video Feed**  
+  - Homepage displays all uploaded videos, sorted by newest first.  
+  - Videos are streamed with HTML5 `<video>` for smooth playback.  
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **User Dashboard**  
+  - Users can view all their uploaded videos.  
+  - Option to delete videos they own.  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Authentication**  
+  - Secured with **NextAuth**.  
+  - Providers supported: **Google, GitHub, Email/Password**.  
+  - Login required for uploading or deleting videos.  
+  - Public browsing allowed for video feed.  
 
-## Learn More
+- **Invoices**  
+  - Users can generate a **PDF invoice** of their uploaded videos.  
+  - Invoice includes:
+    - Invoice number and issue date  
+    - Sender: NyxStream  
+    - Receiver: User’s name and email  
+    - Table with video details (ID, title, upload date, duration, size, resolution, views)  
+    - Total number of videos + storage summary  
+    - Professional footer note  
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠 Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Frontend & Backend:** [Next.js 13+ (App Router)](https://nextjs.org/)  
+- **Database:** [MongoDB + Mongoose](https://www.mongodb.com/)  
+- **Authentication:** [NextAuth.js](https://next-auth.js.org/)  
+- **Storage:** [ImageKit](https://imagekit.io/) for video upload/streaming  
+- **Styling:** TailwindCSS  
+- **PDF Generation:** jsPDF (client-side)  
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📌 Future Improvements
 
-## Deploy on Vercel
+- Migrate from ImageKit to **Supabase Storage** for chunked uploads and chunked streaming.  
+- Enhanced video analytics (views, watch time, engagement).  
+- User profiles and playlists.  
+- Monetization and subscription features.  
+- Improved video transcoding for multiple resolutions (480p, 720p, 1080p, 4K).  
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+💡 *Thank you for using NyxStream!*  
